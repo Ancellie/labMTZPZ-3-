@@ -1,0 +1,19 @@
+# Використання базового образу з встановленим g++
+FROM gcc:latest
+
+# Встановлення необхідних інструментів для установки Boost
+RUN apt-get update && apt-get install -y \
+    libboost-all-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Встановлення робочої директорії
+WORKDIR /project
+
+# Копіювання файлу main.cpp у контейнер
+COPY main.cpp .
+
+# Компіляція вихідного коду з використанням бібліотеки Boost
+RUN g++ -o Test main.cpp -lboost_system
+
+# Команда для запуску скомпільованої програми
+CMD ["./Test"]
